@@ -1,8 +1,10 @@
-FROM ghcr.io/graalvm/jdk-community:24
+FROM maven:3.9.11-eclipse-temurin-24 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-RUN mkdir /opt/app
-WORKDIR /opt/app
-
-COPY target/gate-*.jar gate.jar
-
-CMD ["java", "-jar", "gate.jar"]
+FROM bellsoft/liberica-runtime-container:jre-24-musl
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
