@@ -71,18 +71,12 @@ public sealed class SellLimitOrder extends LimitOrder permits IOCSellLimitOrder 
         final var quantity = segment.getString(position);
         position += quantitySize;
 
-        final var remainingSize = segment.get(INT, position);
-        position += INT.byteSize();
-
-        final var remaining = segment.getString(position);
-        position += remainingSize;
-
         final var priceSize = segment.get(INT, position);
         position += INT.byteSize();
 
         final var price = segment.getString(position);
 
-        return new SellLimitOrder(id, ts, symbol, quantity, remaining, price);
+        return new SellLimitOrder(id, ts, symbol, quantity, price);
     }
 
     @Override
