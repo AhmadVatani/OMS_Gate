@@ -69,18 +69,12 @@ public sealed class BuyLimitOrder extends LimitOrder permits IOCBuyLimitOrder {
         final var quantity = segment.getString(position);
         position += quantitySize;
 
-        final var remainingSize = segment.get(INT, position);
-        position += INT.byteSize();
-
-        final var remaining = segment.getString(position);
-        position += remainingSize;
-
         final var priceSize = segment.get(INT, position);
         position += INT.byteSize();
 
         final var price = segment.getString(position);
 
-        return new BuyLimitOrder(id, ts, symbol, quantity, remaining, price);
+        return new BuyLimitOrder(id, ts, symbol, quantity, price);
     }
 
     @Override
